@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  notebook-server:
+    image: openmined/pysyft-notebook
+    volumes:
+      - /Users/shashwatdalal/Documents/masters_thesis_fl/notebooks:/workspace
+    ports:
+      - 8888:8888
+  alice:
+    image: openmined/pysyft-worker
+    environment:
+      - WORKER_ID=alice
+  bob:
+    image: openmined/pysyft-worker
+    environment:
+      - WORKER_ID=bob
+  charlie:
+    image: openmined/pysyft-worker
+    environment:
+      - WORKER_ID=charlie
