@@ -1,39 +1,38 @@
 version: "3"
 services:
   server:
-    image: pytorch-distributed-example
+    image: shashwatdalal/fl-toy
     environment:
       - MASTER_PORT=23456
       - MASTER_ADDR=server
       - WORLD_SIZE=4
       - RANK=0
       - BACKEND=gloo
-    command: python -u main.py
+    command: python -u server/main.py
   client1:
-    image: pytorch-distributed-example
+    image: shashwatdalal/fl-toy
     environment:
       - MASTER_PORT=23456
       - MASTER_ADDR=server
       - WORLD_SIZE=4
       - RANK=1
       - BACKEND=gloo
-    command: python -u main.py
+    command: python -u client/main.py
   client2:
-    image: pytorch-distributed-example
+    image: shashwatdalal/fl-toy
     environment:
       - MASTER_PORT=23456
       - MASTER_ADDR=server
       - WORLD_SIZE=4
       - RANK=2
       - BACKEND=gloo
-    command: python -u main.py
+    command: python -u client/main.py
   client3:
-    image: pytorch-distributed-example
+    image: shashwatdalal/fl-toy
     environment:
       - MASTER_PORT=23456
       - MASTER_ADDR=server
       - WORLD_SIZE=4
       - RANK=3
       - BACKEND=gloo
-    command: python -u main.py
-
+    command: python -u client/main.py
