@@ -7,4 +7,4 @@ ENV GLOO_SOCKET_IFNAME=eth0
 ENV NCCL_SOCKET_IFNAME=eth0
 
 WORKDIR /work
-COPY main.py .
+COPY toy_example .
