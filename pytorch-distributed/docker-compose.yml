@@ -8,6 +8,7 @@ services:
       - WORLD_SIZE=4
       - RANK=0
       - BACKEND=gloo
+      - N_ROUNDS=100
     command: python -u server/main.py
   client1:
     image: shashwatdalal/fl-toy

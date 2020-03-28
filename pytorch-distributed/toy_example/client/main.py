@@ -1,4 +1,3 @@
-import random
 import os
 import time
 
@@ -16,23 +15,23 @@ def init_network():
 
 
 def train_model(model):
-    model += random.random()
-    return model
+    x = torch.randn(1)
+    return x
 
 
 if __name__ == '__main__':
     rank, world_size = init_network()
 
-    # simulate rounds of federated learning
-
     # initialize state
     model = torch.zeros(1)
     n_rounds = torch.zeros(1)
 
-    dist.recv(tensor=n_rounds, src=COORDINATION_SERVER)
+    # get number of rounds
+    dist.broadcast(n_rounds, COORDINATION_SERVER)
 
-    for round in range(int(n_rounds)):
-        dist.recv(tensor=model, src=COORDINATION_SERVER)
-        model = train_model(model)
-        dist.send(tensor=model, dst=COORDINATION_SERVER)
+    # simulate rounds of federated learning
+    for _ in range(int(n_rounds)):
+        dist.broadcast(model, COORDINATION_SERVER)
+        update = train_model(model)
+        dist.reduce(update, COORDINATION_SERVER)
         time.sleep(0.1)
