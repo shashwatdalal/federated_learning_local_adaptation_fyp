@@ -238,3 +238,31 @@ def train_part(model, optimizer, epochs=1):
         train_losses.append(train_loss / len(loader_train))
         test_losses.append(test_loss / len(loader_test))
     return train_losses, test_losses
+
+# code for optimising your network performance
+
+##############################################################
+#                       YOUR CODE HERE                       #       
+##############################################################
+
+
+
+##############################################################
+#                       END OF YOUR CODE                     #
+##############################################################
+
+
+# define and train the network
+model = ResNet18()
+optimizer = optim.Adam(model.parameters())
+
+train_losses, test_losses = train_part(model, optimizer, epochs = 10)
+
+
+# report test set accuracy
+
+check_accuracy(loader_test, model)
+
+
+# save the model4
+torch.save(model.state_dict(), 'model.pt')
