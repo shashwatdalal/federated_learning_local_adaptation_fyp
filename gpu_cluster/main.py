@@ -241,6 +241,7 @@ def train_part(model, optimizer, epochs=1):
     
     Returns: Nothing, but prints model accuracies during training.
     """
+    writer = SummaryWriter()
     model = model.to(device=device)  # move the model parameters to CPU/GPU
     train_losses = []
     test_losses = []
