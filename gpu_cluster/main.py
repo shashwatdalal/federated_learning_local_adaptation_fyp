@@ -153,7 +153,6 @@ loader_test = DataLoader(dataset=data_set_test, batch_size=64, shuffle=True)
 ##############################################################
 #                       END OF YOUR CODE                     #       
 ##############################################################
-
 USE_GPU = True
 dtype = torch.float32 
 
@@ -238,7 +237,7 @@ def train_part(model, optimizer, epochs=1):
         train_losses.append(train_loss / len(loader_train))
         test_losses.append(test_loss / len(loader_test))
     return train_losses, test_losses
-
+    
 # code for optimising your network performance
 
 ##############################################################
