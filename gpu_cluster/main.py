@@ -1,7 +1,32 @@
+
+"""## Part 2
+
+In this part, you will train a ResNet-18 defined on the CIFAR-10 dataset. Code for training and evaluation are provided.
+
+### Your Task
+
+1. Train your network to achieve the best possible test set accuracy after a maximum of 10 epochs of training.
+
+2. You can use techniques such as optimal hyper-parameter searching, data pre-processing
+
+3. If necessary, you can also use another optimizer
+
+4. **Answer the following question:**
+Given such a network with a large number of trainable parameters, and a training set of a large number of data, what do you think is the best strategy for hyperparameter searching? 
+
+One strategy for evaluating optimal hyperparameters is using Bayesian optimization. This method involves, placing a prior on the space of hyperparaters and using bayesian inference to update the probabilities on the hyperparameters. The probabilities inferred reflect the likelihood of hyperparameters explaining the data. 
+
+Having a large number of training parameters and a large training set implies training the model till convergence will take a long time. To perform bayesian inference in a feasible time, the inference can be conducted on a model that is trained on a randomly sampled subset of the training data. A distribution can be placed on the training sample so that the probability update on the hyperparameters takes account for the uncertainty of the subset not reflecting the full dataset. Hyperparameters to be tested can be sampled from this evolving probability space. 
+
+This method allows the space of hyperparameters to be randomly sampled in feasible time whilst also outputting the uncertainty of the hyperparameters sampled.
+"""
+
 import torch
 from torch.nn import Conv2d, MaxPool2d
 import torch.nn as nn
 import torch.nn.functional as F
+
+"""Next, we define ResNet-18:"""
 
 # define resnet building blocks
 
@@ -97,6 +122,14 @@ class ResNet(nn.Module):
 def ResNet18():
     return ResNet(ResidualBlock)
 
+"""### Loading dataset
+We will import images from the [torchvision.datasets](https://pytorch.org/docs/stable/torchvision/datasets.html) library <br>
+First, we need to define the alterations (transforms) we want to perform to our images - given that transformations are applied when importing the data. <br>
+Define the following transforms using the torchvision.datasets library -- you can read the transforms documentation [here](https://pytorch.org/docs/stable/torchvision/transforms.html): <br>
+1. Convert images to tensor
+2. Normalize mean and std of images with values:mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
+"""
+
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torch.utils.data import sampler
@@ -134,7 +167,15 @@ transformation = T.Compose({
 #                       END OF YOUR CODE                     #
 ##############################################################
 
+"""Now load the dataset using the 
 
+*   List item
+*   List item
+
+transform you defined above, with batch_size = 64<br>
+You can check the documentation [here](https://pytorch.org/docs/stable/torchvision/datasets.html)
+Then create data loaders (using DataLoader from torch.utils.data) for the training and test set
+"""
 
 ##############################################################
 #                       YOUR CODE HERE                       #       
@@ -153,6 +194,7 @@ loader_test = DataLoader(dataset=data_set_test, batch_size=64, shuffle=True)
 ##############################################################
 #                       END OF YOUR CODE                     #       
 ##############################################################
+
 USE_GPU = True
 dtype = torch.float32 
 
@@ -202,7 +244,6 @@ def train_part(model, optimizer, epochs=1):
     train_losses = []
     test_losses = []
     for e in range(epochs):
-        print(len(loader_train))
         train_loss = 0
         for t, (x, y) in enumerate(loader_train):
             model.train()  # put model to training mode
@@ -237,7 +278,7 @@ def train_part(model, optimizer, epochs=1):
         train_losses.append(train_loss / len(loader_train))
         test_losses.append(test_loss / len(loader_test))
     return train_losses, test_losses
-    
+
 # code for optimising your network performance
 
 ##############################################################
