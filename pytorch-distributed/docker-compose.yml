@@ -1,0 +1,38 @@
+version: "3"
+services:
+  server:
+    image: shashwatdalal/fl-toy
+    environment:
+      - MASTER_PORT=23456
+      - MASTER_ADDR=server
+      - WORLD_SIZE=4
+      - RANK=0
+      - BACKEND=gloo
+    command: python -u server/main.py
+  client1:
+    image: shashwatdalal/fl-toy
+    environment:
+      - MASTER_PORT=23456
+      - MASTER_ADDR=server
+      - WORLD_SIZE=4
+      - RANK=1
+      - BACKEND=gloo
+    command: python -u client/main.py
+  client2:
+    image: shashwatdalal/fl-toy
+    environment:
+      - MASTER_PORT=23456
+      - MASTER_ADDR=server
+      - WORLD_SIZE=4
+      - RANK=2
+      - BACKEND=gloo
+    command: python -u client/main.py
+  client3:
+    image: shashwatdalal/fl-toy
+    environment:
+      - MASTER_PORT=23456
+      - MASTER_ADDR=server
+      - WORLD_SIZE=4
+      - RANK=3
+      - BACKEND=gloo
+    command: python -u client/main.py
