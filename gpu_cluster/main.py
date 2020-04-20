@@ -25,6 +25,7 @@ import torch
 from torch.nn import Conv2d, MaxPool2d
 import torch.nn as nn
 import torch.nn.functional as F
+from torch.utils.tensorboard import SummaryWriter
 
 """Next, we define ResNet-18:"""
 
@@ -264,6 +265,7 @@ def train_part(model, optimizer, epochs=1):
             train_loss += loss.item()
             if t % print_every == 0:
                 print('Epoch: %d, Iteration %d, loss = %.4f' % (e, t, loss.item()))
+                writer.add_scalar('Loss/train', loss.item())
                 #check_accuracy(loader_val, model)
         
         test_loss = 0 
@@ -274,6 +276,8 @@ def train_part(model, optimizer, epochs=1):
           scores = model(x)
           loss = F.cross_entropy(scores, y)
           test_loss += loss.item()
+          writer.add_scalar('Loss/test', loss.item())
+
 
         train_losses.append(train_loss / len(loader_train))
         test_losses.append(test_loss / len(loader_test))
