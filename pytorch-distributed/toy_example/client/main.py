@@ -16,6 +16,7 @@ def init_network():
 
 def train_model(model):
     x = torch.randn(1)
+    print(x)
     return x
 
 
@@ -31,7 +32,11 @@ if __name__ == '__main__':
 
     # simulate rounds of federated learning
     for _ in range(int(n_rounds)):
+        # get current model from server
         dist.broadcast(model, COORDINATION_SERVER)
+        # update model by local training
         update = train_model(model)
+        # update = noise(update) # Depending on trust model, can noise update before sending
+        # send new model to server (ideally could just send gradient)
         dist.reduce(update, COORDINATION_SERVER)
         time.sleep(0.1)
